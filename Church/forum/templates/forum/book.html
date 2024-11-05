@@ -2,10 +2,14 @@
 <html lang="ja">
     <head>
         <meta charset="utf-8">
-        <title>forum</title>
+        <title>{{book.name}}</title>
     </head>
     <body>
-        <h1>select book</h1>
-        <h2>genesis</h2>
+        <h1>{{book.name}}</h1>
+        {% for chapter in chapters %}
+        {% for verse in chapter.verse_set.all() %}
+        <p>{{ verse.text }}</p>
+        {% endfor %}
+        {% endfor %}
     </body>
 </html>
