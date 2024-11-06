@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>forum</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'forum/css/style.css' %}">
+    </head>
+    <body>
+       
+        <h1>forum about {{name}} chapter {{chapter}} verse {{verse}}
+        {% csrf_token %}
+        <form action="?name={{name}}&chapter={{chapter}}&verse={{verse}}" method="post">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit" value="click">
+        {% for p in post %}
+        <br>name:{{p.name}},id:{{p.id}}
+        text:{{p.text}}
+        {% endfor %}
+    </body>
+</html>

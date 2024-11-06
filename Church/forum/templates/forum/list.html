@@ -1,13 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
     <head>
         <meta charset="utf-8">
         <title>{{book.name}}</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'forum/css/style.css' %}">
     </head>
     <body>
        
         {% for book in books %}
-        <a href="{% url 'book' %}?name={{ book.name }}">{{book.name}}</a>
+        <a href="{% url 'book' %}?name={{ book.name }}"><p>{{book.name}}</p></a>
         {% endfor %}
     </body>
 </html>

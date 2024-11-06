@@ -7,7 +7,7 @@ class Command(BaseCommand):
     help = "聖書をデータベースに追加"
 
     def handle(self, *args, **options):
-        for curDir,dirs,files, in os.walk("bibles/en-bsb"):
+        for curDir,dirs,files, in os.walk("bibles/en-webus"):
             for file in files:
                 text = os.path.join(curDir, file)
                 with open(text,"r",encoding="utf-8") as context:
@@ -18,11 +18,11 @@ class Command(BaseCommand):
                 if not "data" in data:
                     name = text.split("/")[3]
                     chapter_number = text.split("/")[5]
-                    verse_number = file.split(".")[0]
+                    verse_number = file.split(".")[0].split("-")[0]
                     verse_text = data["text"]
                 
-                    book, _ = Book.objects.get_or_create(name=name)
-                    chapter, _ = Chapter.objects.get_or_create(book=book, chapter_number=chapter_number)
-                    verse, _ = Verse.objects.get_or_create(chapter=chapter, verse_number=verse_number, text=verse_text)
+                    #book, _ = Book.objects.get_or_create(name=name)
+                    #chapter, _ = Chapter.objects.get_or_create(book=book, chapter_number=chapter_number)
+                    #verse, _ = Verse.objects.get_or_create(chapter=chapter, verse_number=verse_number, text=verse_text)
 
         
