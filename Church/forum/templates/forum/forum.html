@@ -3,15 +3,25 @@
 {% block main %}
     <body>
        
-        <h1>forum about {{name}} chapter {{chapter}} verse {{verse}}
+        <h1>{{name}} {{chapter}}-{{verse}}
         {% csrf_token %}
         <form action="?name={{name}}&chapter={{chapter}}&verse={{verse}}" method="post">
             {% csrf_token %}
             {{form}}
             <input type="submit" value="click">
-        {% for p in post %}
-        <br>name:{{p.name}},id:{{p.id}}
-        text:{{p.text}}
-        {% endfor %}
+        <table border="1">
+            <tr>
+                <th scope="col">name</th>
+                <th scope="col">id</th>
+                <th scope="col">text</th>
+            </tr>
+                {% for p in post %}
+                <tr>
+                    <td>{{p.owner.username}}</td>
+                    <td>{{p.id}}</td>
+                    <td>{{p.text}}</td>
+                </tr>
+                {% endfor %}
+        </table>
     </body>
 {% endblock %}

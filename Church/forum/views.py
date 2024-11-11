@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Book,Post_test
+from .models import Book,Post,Chapter,Verse
 from .forms import DiscussionForm
 from django.core.paginator import Paginator
+from django.contrib.auth.models import User
 
 bible_order = [
         "genesis", "exodus", "leviticus", "numbers", "deuteronomy", "joshua",
@@ -60,21 +61,26 @@ def forum(request):
     chapter=request.GET["chapter"]
     verse=request.GET["verse"]
 
-    post = Post_test.objects.all()
+    post = Post.objects.filter(verse__chapter__book__name = name, verse__chapter__chapter_number=chapter, verse__verse_number=verse)
 
     params = {
         "name":name,
         "chapter":chapter,
         "verse":verse,
         "form":DiscussionForm(),
-        "post":post
+        "post":post,
 
     }
 
     if (request.method == 'POST'):
-        post_name = request.POST["name"]
+        user = request.user
         post_text = request.POST["text"]
-        post = Post_test(name=post_name,text=post_text)     
+        name=request.GET["name"]
+        chapter=request.GET["chapter"]
+        verse_number=request.GET["verse"]
+        post_verse = Verse.objects.get(verse_number=verse_number, chapter__chapter_number=chapter, chapter__book__name=name)
+
+        post = Post(owner=user,text=post_text,verse=post_verse)     
         post.save() 
 
     return render(request,"forum/forum.html",params)

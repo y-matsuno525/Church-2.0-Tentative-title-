@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Book(models.Model):
     name = models.CharField(max_length=100)
@@ -28,3 +28,9 @@ class Post_test(models.Model):
     
     def __str__(self):
         return self.text
+    
+class Post(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="message_owner")
+    text = models.TextField()
+    verse = models.ForeignKey(Verse, on_delete=models.CASCADE, related_name="post")
+    created_at = models.DateTimeField(auto_now_add=True)
