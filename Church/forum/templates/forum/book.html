@@ -1,11 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ja">
-    <head>
-        <meta charset="utf-8">
-        <title>{{book}}</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'forum/css/style.css' %}">
-    </head>
+{% extends "base.html" %}
+
+{% block main %}
     <body>
         <h1>{{book}}</h1>
         {% for verse_set,id in verses %}
@@ -63,4 +58,4 @@
         {% endif %}
     </ul>
     </body>
-</html>
+    {% endblock %}
