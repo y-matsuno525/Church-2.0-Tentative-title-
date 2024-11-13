@@ -4,7 +4,7 @@
     <body>
        
         {% for book in books %}
-        <a href="{% url 'book' %}?name={{ book.name }}"><p>{{book.name}}</p></a>
+        <a class="page-link text-dark" href="{% url 'book' %}?name={{ book.name }}"><p>{{book.name}}</p></a>
         {% endfor %}
     </body>
 {% endblock %}

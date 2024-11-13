@@ -3,59 +3,61 @@
 {% block main %}
     <body>
         <h1>{{book}}</h1>
-        {% for verse_set,id in verses %}
-        <p>Chapter:{{verses.number}}</p>
-        {% for verse in verse_set%}
-        <a href="{% url 'forum' %}?name={{book}}&chapter={{id}}&verse={{verse.verse_number}}"><p>{{verse.verse_number}}:{{ verse.text }}</p></a>
+        {% for verse_set, id in verses %}
+        <p>Chapter:{{id}}</p>
+        {% for verse in verse_set %}
+        <a href="{% url 'forum' %}?name={{book}}&chapter={{id}}&verse={{verse.verse_number}}" class="text-dark">
+            <p>{{verse.verse_number}}: {{verse.text}}</p>
+        </a>
         {% endfor %}
         {% endfor %}
-    
-    <ul class="pagination">
-        {% if verses.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="{% url 'book' %}?name={{book}}">
-                &laquo; first</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" 
-            href="{% url 'book' %}?name={{book}}&page={{verses.previous_page_number}}">
-                &laquo; prev</a>
-        </li>
-        {% else %}
-        <li class="page-item">
-            <a class="page-link">
-                &laquo; first</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link">
-                &laquo; prev</a>
-        </li>
-        {% endif %}
-        <li class="page-item">
-            <a class="page-link">
-            {{verses.number}}/{{verses.paginator.num_pages}}</a>
-        </li>
-        {% if verses.has_next %}
-        <li class="page-item">
-            <a class="page-link" 
-            href="{% url 'book' %}?name={{book}}&page={{verses.next_page_number}}">
-                next &raquo;</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" 
-            href="{% url 'book' %}?name={{book}}&page={{verses.paginator.num_pages}}">
-                last &raquo;</a>
-        </li>
-        {% else %}
-        <li class="page-item">
-            <a class="page-link">
-                next &raquo;</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link">
-                last &raquo;</a>
-        </li>
-        {% endif %}
-    </ul>
+
+        <ul class="pagination">
+            {% if verses.has_previous %}
+            <li class="page-item">
+                <a class="page-link text-dark" href="{% url 'book' %}?name={{book}}">
+                    &laquo; first
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link text-dark" href="{% url 'book' %}?name={{book}}&page={{verses.previous_page_number}}">
+                    &laquo; prev
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <span class="page-link text-muted">&laquo; first</span>
+            </li>
+            <li class="page-item">
+                <span class="page-link text-muted">&laquo; prev</span>
+            </li>
+            {% endif %}
+
+            <li class="page-item">
+                <span class="page-link text-dark">
+                    {{verses.number}} / {{verses.paginator.num_pages}}
+                </span>
+            </li>
+
+            {% if verses.has_next %}
+            <li class="page-item">
+                <a class="page-link text-dark" href="{% url 'book' %}?name={{book}}&page={{verses.next_page_number}}">
+                    next &raquo;
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link text-dark" href="{% url 'book' %}?name={{book}}&page={{verses.paginator.num_pages}}">
+                    last &raquo;
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <span class="page-link text-muted">next &raquo;</span>
+            </li>
+            <li class="page-item">
+                <span class="page-link text-muted">last &raquo;</span>
+            </li>
+            {% endif %}
+        </ul>
     </body>
-    {% endblock %}
+{% endblock %}
