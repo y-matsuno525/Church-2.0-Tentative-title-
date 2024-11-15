@@ -59,5 +59,10 @@
             </li>
             {% endif %}
         </ul>
+        {% csrf_token %}
+        <form action="?name={{book}}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="go" class="btn btn-primary btn-dark">
     </body>
 {% endblock %}

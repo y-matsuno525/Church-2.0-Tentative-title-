@@ -24,7 +24,7 @@ def index(request):
     """
     params = {
         "name" : "Yuki",
-        "sum": "停止中"
+        "sum": "Under Construction"
     }
     return render(request,'menu/index.html',params)
 

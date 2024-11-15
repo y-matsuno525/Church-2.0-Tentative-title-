@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Book,Post,Chapter,Verse
-from .forms import DiscussionForm
+from .forms import DiscussionForm,PageForm
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 bible_order = [
         "genesis", "exodus", "leviticus", "numbers", "deuteronomy", "joshua",
@@ -51,20 +52,33 @@ def book(request,num=1):
         "book":book_name,
         "chapters":chapters,
         "verses":page.get_page(num),
+        "form":PageForm()
+        
     }
+
+    if (request.method == 'POST'):
+        num = int(request.POST["page_number"])
+        params["verses"] = page.get_page(num)
+
 
     return render(request,"forum/book.html",params)
 
+@login_required(login_url="/accounts/login/")
 def forum(request):
 
-    name=request.GET["name"]
-    chapter=request.GET["chapter"]
-    verse=request.GET["verse"]
+    name = request.GET["name"]
+    chapter_number = request.GET["chapter"]
+    verse_number = request.GET["verse"]
 
-    post = Post.objects.filter(verse__chapter__book__name = name, verse__chapter__chapter_number=chapter, verse__verse_number=verse)
+    book = Book.objects.filter(name=name).first()
+    chapter = Chapter.objects.filter(book=book, chapter_number=chapter_number).first()
+    verse=Verse.objects.filter(verse_number=verse_number, chapter=chapter).first()
+
+
+    post = Post.objects.filter(verse__chapter__book__name = name, verse__chapter__chapter_number=chapter_number, verse__verse_number=verse_number).order_by("-created_at")
 
     params = {
-        "name":name,
+        "name":book.name,
         "chapter":chapter,
         "verse":verse,
         "form":DiscussionForm(),

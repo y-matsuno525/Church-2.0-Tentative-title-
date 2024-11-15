@@ -3,9 +3,10 @@
 {% block main %}
     <body>
        
-        <h1>{{name}} {{chapter}}-{{verse}}
+        <h1>{{name}} {{chapter.chapter_number}}-{{verse.verse_number}}
+        <h3>{{verse.text}}</h3>
         {% csrf_token %}
-        <form action="?name={{name}}&chapter={{chapter}}&verse={{verse}}" method="post">
+        <form action="?name={{name}}&chapter={{chapter.chapter_number}}&verse={{verse.verse_number}}" method="post">
             {% csrf_token %}
             {{form}}
             <input type="submit" value="post" class="btn btn-primary btn-dark">
@@ -13,12 +14,14 @@
             <tr>
                 <th scope="col">name</th>
                 <th scope="col">id</th>
+                <th scope="col">date</th>
                 <th scope="col">text</th>
             </tr>
                 {% for p in post %}
                 <tr>
                     <td>{{p.owner.username}}</td>
                     <td>{{p.id}}</td>
+                    <td>{{p.created_at}}</td>
                     <td>{{p.text}}</td>
                 </tr>
                 {% endfor %}
