@@ -52,7 +52,7 @@ def book(request,num=1):
         "book":book_name,
         "chapters":chapters,
         "verses":page.get_page(num),
-        "form":PageForm()
+        "form":PageForm(),
         
     }
 

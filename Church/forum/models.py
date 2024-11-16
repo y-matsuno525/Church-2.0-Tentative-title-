@@ -18,6 +18,7 @@ class Verse(models.Model):
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
     verse_number = models.IntegerField()
     text = models.TextField()
+    image = models.ImageField(upload_to='img/wordcloud/',null=True)
 
     def __str__(self):
         return f"{self.chapter.book.name} {self.chapter.chapter_number}:{self.verse_number}"
