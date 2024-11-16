@@ -5,9 +5,7 @@
 
 ### やるべきこと
 - `post`一覧に返信機能（>>23のような形式）を追加し、クリックで返信先の投稿が見れるようにする
-- POSTの傾向を可視化(wordcloudを使う)
-- ログインなしでも書き込める掲示板
-- ログイン必須のフォーラム（教義決定に寄与）
+- clubhouseみたいな招待制の神学論文掲載システム
 - 掲示板とフォーラムの関係を考える（『一般意思2.0』を参考に）
 - ラズパイカメラによるストリーミング
 
@@ -22,20 +20,18 @@
 # Church-3.0-Tentative-title-
 
 ### Overview
-- A mobile Christian community. By visualizing unconscious desires, it provides feedback to the central body, preventing the fixation of doctrine.
+- A mobile Christian community aiming to visualize unconscious desires to provide feedback to the core, preventing the fixation of doctrines.
 
-### Tasks
-- Add a reply feature to the `post` list (in a format like >>23), allowing users to click and view the referenced post.
-- Visualize POST trends (using wordcloud).
-- Create a bulletin board where users can post without logging in.
-- Implement a login-required forum (contributing to doctrinal decisions).
-- Consider the relationship between the bulletin board and the forum (referencing *General Will 2.0*).
-- Streaming with a Raspberry Pi camera.
+### To-Do
+- Add a reply feature to the `post` list (e.g., >>23 format) where clicking on a reply displays the referenced post.
+- Develop a Clubhouse-style invite-only theology paper publishing system.
+- Define the relationship between the message board and the forum (referencing *General Will 2.0*).
+- Implement streaming using a Raspberry Pi camera.
 
 ### Goals
-- Search for `verse` by keywords.
+- Enable `verse` search by keywords.
 
-### Considerations
-- Consider the significance of implementing a community currency.
-- How can we minimize reliance on external platforms?
-- Services that involve hardware.
+### Points to Consider
+- Reflect on the significance of implementing community-specific currency.
+- Minimize reliance on external platforms.
+- Explore hardware-based services.
