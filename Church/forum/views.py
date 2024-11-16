@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Book,Post,Chapter,Verse
-from .forms import DiscussionForm,PageForm
+from .forms import DiscussionForm,PageForm,DiscussionForm_guest
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -63,7 +63,7 @@ def book(request,num=1):
 
     return render(request,"forum/book.html",params)
 
-@login_required(login_url="/accounts/login/")
+#@login_required(login_url="/accounts/login/")
 def forum(request):
 
     name = request.GET["name"]
@@ -77,24 +77,43 @@ def forum(request):
 
     post = Post.objects.filter(verse__chapter__book__name = name, verse__chapter__chapter_number=chapter_number, verse__verse_number=verse_number).order_by("-created_at")
 
+    if request.user.is_authenticated:
+        form = DiscussionForm()
+    else:
+        form = DiscussionForm_guest()
+
+
     params = {
         "name":book.name,
         "chapter":chapter,
         "verse":verse,
-        "form":DiscussionForm(),
+        "form":form,
         "post":post,
 
     }
 
     if (request.method == 'POST'):
-        user = request.user
-        post_text = request.POST["text"]
-        name=request.GET["name"]
-        chapter=request.GET["chapter"]
-        verse_number=request.GET["verse"]
-        post_verse = Verse.objects.get(verse_number=verse_number, chapter__chapter_number=chapter, chapter__book__name=name)
+        if request.user.is_authenticated:
 
-        post = Post(owner=user,text=post_text,verse=post_verse)     
-        post.save() 
+            user = request.user
+            post_text = request.POST["text"]
+            name=request.GET["name"]
+            chapter=request.GET["chapter"]
+            verse_number=request.GET["verse"]
+            post_verse = Verse.objects.get(verse_number=verse_number, chapter__chapter_number=chapter, chapter__book__name=name)
+
+            post = Post(owner=user,text=post_text,verse=post_verse)     
+            post.save() 
+
+        else:
+            guest_name = request.POST["guest_name"]
+            post_text = request.POST["text"]
+            name=request.GET["name"]
+            chapter=request.GET["chapter"]
+            verse_number=request.GET["verse"]
+            post_verse = Verse.objects.get(verse_number=verse_number, chapter__chapter_number=chapter, chapter__book__name=name)
+
+            post = Post(guest_name=guest_name,text=post_text,verse=post_verse)     
+            post.save() 
 
     return render(request,"forum/forum.html",params)

@@ -78,7 +78,7 @@ class Command(BaseCommand):
                 post_list.append(post.text)
 
             post_join = '\n'.join(post_list)
-            wd = WordCloud(width=800, height=600, background_color='white').generate(post_join)
+            wd = WordCloud(width=400, height=300, background_color='white').generate(post_join)
             file_name = "all.png"
             file_path = root_file_path + file_name
             wd.to_file(file_path)

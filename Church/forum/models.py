@@ -31,7 +31,8 @@ class Post_test(models.Model):
         return self.text
     
 class Post(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="message_owner")
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="message_owner", null=True)
+    guest_name = models.CharField(max_length=100, null=True)
     text = models.TextField()
     verse = models.ForeignKey(Verse, on_delete=models.CASCADE, related_name="post")
     created_at = models.DateTimeField(auto_now_add=True)

@@ -22,15 +22,25 @@
         
         <table class="table table-striped table-hover">
             <tr>
-                <th scope="col">name</th>
-                <th scope="col">id</th>
-                <th scope="col">date</th>
-                <th scope="col">text</th>
+                <th scope="col">Post id</th>
+                <th scope="col">Name</th>
+                <th scope="col">User id</th>
+                <th scope="col">Date</th>
+                <th scope="col">Content</th>
             </tr>
                 {% for p in post %}
                 <tr>
+                    <td>{{ p.id }}</td>
+                    {% if p.owner is not None %}
                     <td>{{p.owner.username}}</td>
-                    <td>{{p.id}}</td>
+                    {% else %}
+                    <td>{{ p.guest_name }}</td>
+                    {% endif %}
+                    {% if p.owner is not None %}
+                    <td>{{user.id}}</td>
+                    {% else %}
+                    <td>guest</td>
+                    {% endif %}
                     <td>{{p.created_at}}</td>
                     <td>{{p.text}}</td>
                 </tr>
