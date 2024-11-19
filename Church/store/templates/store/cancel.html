@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block main %}
+<body>
+  <section>
+    <p>The payment was cancelled</p>
+    <p><a href="{% url 'store:product_list' %}">back</a></p>
+  </section>
+</body>
+{% endblock %}

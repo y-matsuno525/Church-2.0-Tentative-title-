@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirecting to Stripe...</title>
+    <script>
+        // ページ読み込み時にリダイレクト
+        document.addEventListener('DOMContentLoaded', function() {
+            window.location.href = "{{ checkout_url }}";  // Djangoから渡されたCheckout URL
+        });
+    </script>
+</head>
+<body>
+    <p>Redirecting to Stripe checkout...</p>
+</body>
+</html>

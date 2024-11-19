@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "forum",
     "accounts.apps.AccountsConfig",
     "django_bootstrap5",
-    "payment",
+    "store",
 ]
 
 MIDDLEWARE = [
