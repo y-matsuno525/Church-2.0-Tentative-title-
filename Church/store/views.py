@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
-stripe.api_key = ''
+stripe.api_key = 'secret'
 
 
 def checkout(request):
@@ -104,7 +104,7 @@ def create_checkout_session(request):
         # ここもう少しハンドリングするべき
 
 
-endpoint_secret = ''
+endpoint_secret = 'secret'
 
 
 @csrf_exempt
