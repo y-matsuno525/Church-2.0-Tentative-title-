@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <body>
+        <p class="text-dark">Preprint</p>
+        {% for preprint in preprints %}
+            <a class="page-link text-dark" href="{%url 'dogmatics:reading' %}?id={{preprint.id}}">{{ preprint.title }}</a>
+        {% endfor %}
+    </body>
+{% endblock %}

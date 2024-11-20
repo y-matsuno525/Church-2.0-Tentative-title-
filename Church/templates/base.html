@@ -10,10 +10,14 @@
     {% bootstrap_javascript %}
     <link rel="stylesheet" href="{% static 'menu/css/style.css' %}">
     {% block extraheader %}{% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <nav class="navbar navbar-expand flex-md-row navbar-dark bg-dark">
-    <div class="container justify-content-between">
+    <div class="container d-flex justify-content-between">
+        <ul class="navbar-nav mr-md-2">
+            <li class="nav-item"><a class="nav-link" href="{% url 'back' %}">back</a></li>
+        </ul>
         <a href="/menu/" class="navbar-brand">church 3.0</a>
         <ul class="navbar-nav mr-md-2">
             {% if user.is_authenticated %}

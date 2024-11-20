@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-s_v+3%k&&kh=@9%mczw6r7fppr7@^vy#^zap@yui6dwn(_w!^4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["192.168.11.137"]
 
 
 # Application definition
@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig",
     "django_bootstrap5",
     "store",
+    "dogmatics",
+    "mdeditor",
 ]
 
 MIDDLEWARE = [
@@ -134,5 +136,10 @@ LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/menu/'
 LOGOUT_REDIRECT_URL = '/menu/'
 
+#可視化画像生成用
+#MEDIA_URL = '/media/'
+#MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+#markdownアップロード用
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")

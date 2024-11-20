@@ -7,27 +7,27 @@
             {% for product in products_list %}
                 {% if product.image %}
                     {% for image in product.image %}
-                        <img src="{{image}}" class="img-fluid" style="width: 200px; height: 200px; object-fit: cover;">
+                        <img src="{{image}}" class="img-fluid">
                     {% endfor %}
                 {% else %}
                     <p>No image available!</p>
                 {% endif %}
-                <p><h2 class="text-dark">{{ product.name }}</h2></p>
+                <h2 class="text-dark">{{ product.name }}</h2><br>
                 {% if product.num != 1 %}
                     {% for price in product.price_list %}
-                        <br><h5 class="text-dark">{{ price.nickname}} : {{price.price}} {{price.currency}}</h5>
+                        <span class="text-dark">{{ price.nickname}} : {{price.price}} {{price.currency}}</span><br>
                         <form action="/store/create-checkout-session" method="POST">
                             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                             <input type="hidden" name="price" value={{price.id}}>
-                            <button type="submit" id="checkout-button" class="btn btn-primary btn-dark">Checkout</button>
+                            <button type="submit" id="checkout-button" class="btn btn-primary btn-dark">Checkout</button><br>
                     {% endfor %}
                 {% else %}
                     {% for price in product.price_list %}
-                        <br><h5 class="text-dark">{{price.price}} {{price.currency}}</h5>
+                        <span class="text-dark">{{price.price}} {{price.currency}}</span><br>
                         <form action="/store/create-checkout-session" method="POST">
                             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                             <input type="hidden" name="price" value={{price.id}}>
-                            <button type="submit" id="checkout-button" class="btn btn-primary btn-dark">Checkout</button>
+                            <button type="submit" id="checkout-button" class="btn btn-primary btn-dark">Checkout</button><br>
                     {% endfor %}
                 {% endif %}
             {% endfor %}

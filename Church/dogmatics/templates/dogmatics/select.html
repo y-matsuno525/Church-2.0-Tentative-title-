@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <body>
+        <a class="page-link text-dark" href="{% url 'dogmatics:journal' %}"><p>・Journal</p></a>
+        <a class="page-link text-dark" href="{% url 'dogmatics:preprint' %}"><p>・Preprint</p></a>
+        <a class="page-link text-dark" href="{% url 'dogmatics:post' %}"><p>・Post</p></a>
+    </body>
+{% endblock %}

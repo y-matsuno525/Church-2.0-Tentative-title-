@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load markdown_extras %}
+
+{% block main %}
+    <body>
+        <p class="text-dark"><h2>{{preprint.title}}</h2></p>
+        <p class="text-dark"><h4>created at {{preprint.created_at}}</h2></p>
+        <p class="text-dark"><h4>updated at {{preprint.updated_at}}</h2></p>
+        <p class="text-dark"><h4>The number of stars is {{num_stars}}</h2></p>
+        <form action="" method="post">
+            {% csrf_token %}
+            <button type="submit" class="star-button">
+                ★ Star
+                <span class="star-count">{{ num_stars }}</span>
+            </button>
+        </form>
+        {{ preprint.content|markdown|safe }}
+        
+    </body>
+{% endblock %}

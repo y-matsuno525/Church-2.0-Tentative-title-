@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load markdown_extras %}
+
+{% block main %}
+    <body>
+        <p class="text-dark"><h2>{{formal_paper.preprint.title}}</h2></p>
+        <p class="text-dark"><h4>formalized at {{formal_paper.formalized_at}}</h2></p>
+        {{ formal_paper.preprint.content|markdown|safe }}
+        
+    </body>
+{% endblock %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 import openai 
 from forum.models import Post_test
@@ -28,3 +28,14 @@ def index(request):
     }
     return render(request,'menu/index.html',params)
 
+def back(request):
+    previous_path = request.META['HTTP_REFERER']  # 一つ前のURLパスを取得
+
+    #工夫すべき
+    if (previous_path == "http://127.0.0.1:8000/menu/") or (previous_path == "http://127.0.0.1:8000/accounts/login/")or (previous_path == "http://127.0.0.1:8000/accounts/signup/")or (previous_path == "http://127.0.0.1:8000/store/product_list"):
+
+        return redirect(previous_path)
+    
+    parent_path = '/'.join(previous_path.rstrip('/').split('/')[:-1]) + '/'  # 1階層上のURLを計算
+
+    return redirect(parent_path)
