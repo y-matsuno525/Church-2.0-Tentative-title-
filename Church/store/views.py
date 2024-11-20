@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
 stripe.api_key = ''
-
+test = "test"
 
 def checkout(request):
     return render(request, "store/checkout.html")
