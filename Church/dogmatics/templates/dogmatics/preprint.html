@@ -1,10 +1,22 @@
 {% extends "base.html" %}
 
 {% block main %}
-    <body>
-        <p class="text-dark">Preprint</p>
+<div class="container mt-4">
+    <h1 class="text-dark">Preprints</h1>
+    <div class="list-group">
         {% for preprint in preprints %}
-            <a class="page-link text-dark" href="{%url 'dogmatics:reading' %}?id={{preprint.id}}">{{ preprint.title }}</a>
+        <div class="list-group-item mb-3">
+            <h5>
+                <a class="text-dark text-decoration-none" href="{% url 'dogmatics:reading' %}?id={{ preprint.id }}">
+                    {{ preprint.title }}
+                </a>
+            </h5>
+            <p class="text-muted mb-1">Author: {{ preprint.author.username }}</p>
+            <p>{{ preprint.abstract }}</p>
+        </div>
+        {% empty %}
+        <p class="text-muted">No preprints available.</p>
         {% endfor %}
-    </body>
+    </div>
+</div>
 {% endblock %}

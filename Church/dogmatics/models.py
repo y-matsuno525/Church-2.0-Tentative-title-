@@ -6,6 +6,7 @@ from django.utils.timezone import now, timedelta
 # プレプリントモデル
 class Preprint(models.Model):
     title = models.CharField(max_length=255)  # 論文のタイトル
+    abstract = models.TextField(null=True)  
     content = MDTextField()             # 論文内容
     author = models.ForeignKey(User, on_delete=models.CASCADE)  # 投稿者
     created_at = models.DateTimeField(auto_now_add=True)  # 投稿日時
@@ -55,7 +56,14 @@ class UserProfile(models.Model):
     def can_post(self):
         """投稿可能かチェック"""
         one_week_ago = now() - timedelta(days=7)
-        last_post = self.user.preprints.order_by('-created_at').first()
-        if last_post and last_post.created_at >= one_week_ago:
+        last_post = Preprint.objects.filter(author=self.user).order_by('-created_at').first()#self.user.preprints.order_by('-created_at').first()
+
+        if not last_post:
+            return True
+
+        self.last_posted_at = last_post.created_at
+        self.save()
+
+        if last_post.created_at >= one_week_ago: #理解後で
             return False
         return True

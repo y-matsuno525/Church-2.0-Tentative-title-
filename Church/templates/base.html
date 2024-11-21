@@ -11,12 +11,37 @@
     <link rel="stylesheet" href="{% static 'menu/css/style.css' %}">
     {% block extraheader %}{% endblock %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        //要修正
+        function goBack() {
+
+            const currentUrl = new URL(window.location.href); 
+            const path = currentUrl.pathname; 
+
+            const targetBaseUrl_1 = "/menu/list/book/forum"; 
+            
+            if (path.startsWith(targetBaseUrl_1)) {
+            
+                const queryParams = currentUrl.search; 
+                
+                const parentPath = path.substring(0, path.lastIndexOf('/'));
+                
+                window.location.href = parentPath + queryParams;
+            } else {
+                
+                const parentPath = path.substring(0, path.lastIndexOf('/'));
+                window.location.href = parentPath || '/';
+            }
+        }
+        
+    </script>
+    
 </head>
 <body>
 <nav class="navbar navbar-expand flex-md-row navbar-dark bg-dark">
     <div class="container d-flex justify-content-between">
         <ul class="navbar-nav mr-md-2">
-            <li class="nav-item"><a class="nav-link" href="{% url 'back' %}">back</a></li>
+            <li class="nav-item"><a onclick="goBack()" class="nav-link">back</a></li>
         </ul>
         <a href="/menu/" class="navbar-brand">church 3.0</a>
         <ul class="navbar-nav mr-md-2">

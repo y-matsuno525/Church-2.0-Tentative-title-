@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from .forms import PreprintForm
-from .models import Preprint,FormalPaper
+from .models import Preprint,FormalPaper,UserProfile
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 
@@ -36,6 +36,13 @@ def preprint(request):
 @login_required(login_url="/accounts/login/")
 def post(request):
 
+    user = request.user
+    userprofile, created = UserProfile.objects.get_or_create(user=user)
+
+    if not userprofile.can_post():
+        return redirect("dogmatics:cant_post")
+
+
     params = {
         'form' : PreprintForm(),
     }
@@ -44,9 +51,10 @@ def post(request):
         
         author = request.user
         title = request.POST["title"]
+        abstract = request.POST["abstract"]
         content = request.POST["content"]
 
-        preprint = Preprint(author=author,title=title,content=content)
+        preprint = Preprint(author=author,title=title,abstract=abstract,content=content)
         preprint.save()
 
         return render(request,"dogmatics/select.html",params)
@@ -106,3 +114,7 @@ def j_reading(request):
     }
 
     return render(request,'dogmatics/j_reading.html',params)
+
+
+def cant_post(request):
+    return render(request,'dogmatics/cant_post.html')
