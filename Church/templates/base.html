@@ -3,7 +3,6 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <title>church 3.0</title>
     {% bootstrap_css %}
@@ -13,35 +12,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
         //要修正
-        function goBack() {
+        function goBack(event) {
+            event.preventDefault();
+    
+            let currentUrl = window.location.href;
 
-            const currentUrl = new URL(window.location.href); 
-            const path = currentUrl.pathname; 
-
-            const targetBaseUrl_1 = "/menu/list/book/forum"; 
-            
-            if (path.startsWith(targetBaseUrl_1)) {
-            
-                const queryParams = currentUrl.search; 
-                
-                const parentPath = path.substring(0, path.lastIndexOf('/'));
-                
-                window.location.href = parentPath + queryParams;
-            } else {
-                
-                const parentPath = path.substring(0, path.lastIndexOf('/'));
-                window.location.href = parentPath || '/';
+            if (currentUrl.endsWith('/')) {
+                currentUrl = currentUrl.slice(0,-1)
             }
+    
+            if (window.location.search){
+    
+                const queryString = window.location.search; //クエリ文字列（例: ?key1=value1&key2=value2）を取得
+                const params = new URLSearchParams(queryString); //各パラメータごとにバラす
+            
+                if (params.get('id')) {
+            
+                    const upperLevelUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/'));
+                    window.location.href = upperLevelUrl;
+    
+                } else if (params.get('name')) {
+                
+                    if (params.get('chapter')) {
+    
+                        const upperLevelUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/'));
+                        window.location.href = upperLevelUrl + '?name=' + params.get('name');
+    
+                    } else {
+    
+                        const upperLevelUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/'));
+                        window.location.href = upperLevelUrl;
+    
+                    }
+    
+                } else {
+
+                }
+
+            } else {
+
+                const currentPath = window.location.pathname;
+                if (currentPath === '/menu' || currentPath === '/menu/') {
+                    return
+                } 
+    
+                const upperLevelUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/'));
+
+                if (upperLevelUrl.endsWith('accounts') || upperLevelUrl.endsWith('store')){
+
+                    let next_upperLevelUrl = upperLevelUrl.substring(0, upperLevelUrl.lastIndexOf('/'));
+
+                    window.location.href = next_upperLevelUrl +"/menu/";
+                    
+                } else {
+
+                window.location.href = upperLevelUrl;
+                }
+    
+            }
+    
         }
         
     </script>
-    
 </head>
 <body>
 <nav class="navbar navbar-expand flex-md-row navbar-dark bg-dark">
     <div class="container d-flex justify-content-between">
         <ul class="navbar-nav mr-md-2">
-            <li class="nav-item"><a onclick="goBack()" class="nav-link">back</a></li>
+            {% csrf_token %}
+            <li class="nav-item"><a href="#" onclick="goBack(event)" class="nav-link">back</a></li>
         </ul>
         <a href="/menu/" class="navbar-brand">church 3.0</a>
         <ul class="navbar-nav mr-md-2">
@@ -63,5 +102,6 @@
         {% block main %}{% endblock %}
     </div>
 </main>
+
 </body>
 </html>
