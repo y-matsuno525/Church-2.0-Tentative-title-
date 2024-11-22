@@ -32,7 +32,11 @@
                 <tr>
                     <td>{{ p.id }}</td>
                     {% if p.owner is not None %}
-                    <td>{{p.owner.username}}</td>
+                    <td>
+                        <a class="page-link text-dark" href="{% url 'userpage:userpage' p.owner.username %}">
+                            {{ p.owner.username }}
+                        </a>
+                    </td>
                     {% else %}
                     <td>{{ p.guest_name }}</td>
                     {% endif %}

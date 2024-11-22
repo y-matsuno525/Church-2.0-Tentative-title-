@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <script src="https://js.stripe.com/v3/"></script>
-    <title>church 3.0</title>
+    <title>church 2.0</title>
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <link rel="stylesheet" href="{% static 'menu/css/style.css' %}">
@@ -58,15 +58,20 @@
     
                 const upperLevelUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/'));
 
-                if (upperLevelUrl.endsWith('accounts') || upperLevelUrl.endsWith('store')){
+                if (upperLevelUrl.endsWith('accounts') || upperLevelUrl.endsWith('store') ){
 
                     let next_upperLevelUrl = upperLevelUrl.substring(0, upperLevelUrl.lastIndexOf('/'));
 
                     window.location.href = next_upperLevelUrl +"/menu/";
                     
+                } else if (upperLevelUrl.endsWith('userpage')){
+
+                    history.back()
+
                 } else {
 
                 window.location.href = upperLevelUrl;
+                
                 }
     
             }
@@ -82,7 +87,7 @@
             {% csrf_token %}
             <li class="nav-item"><a href="#" onclick="goBack(event)" class="nav-link">back</a></li>
         </ul>
-        <a href="/menu/" class="navbar-brand">church 3.0</a>
+        <a href="/menu/" class="navbar-brand">church 2.0</a>
         <ul class="navbar-nav mr-md-2">
             {% if user.is_authenticated %}
             <form action='{% url "logout" %}' method='post' name='logout'>

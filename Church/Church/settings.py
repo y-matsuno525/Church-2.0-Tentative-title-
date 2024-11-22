@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "store",
     "dogmatics",
     "mdeditor",
+    "userpage",
 ]
 
 MIDDLEWARE = [

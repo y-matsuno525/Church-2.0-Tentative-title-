@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load markdown_extras %}
+
+{% block main %}
+    <body>
+
+        <p>{{ user.username }}</p>
+        {% for post in posts %}
+        {{ post.verse.chapter.book.name }} {{ post.verse.chapter.chapter_number }} : {{ post.verse.verse_number }}<br>
+        {{ post.text }}<br>
+        {% endfor %}
+        {% for preprint in preprints %}
+        {{ preprint.title }}<br>
+        {{ preprint.content|markdown|safe }}<br>
+        {% endfor %}
+
+        
+    </body>
+{% endblock %}
