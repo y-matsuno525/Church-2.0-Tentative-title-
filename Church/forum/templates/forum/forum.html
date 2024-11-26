@@ -5,12 +5,15 @@
        
         <h1>{{name}} {{chapter.chapter_number}}-{{verse.verse_number}}
         <h3>{{verse.text}}</h3>
+        {% if can_post == 1 %}
         {% csrf_token %}
         <form action="?name={{name}}&chapter={{chapter.chapter_number}}&verse={{verse.verse_number}}" method="post">
             {% csrf_token %}
             {{form}}
             <input type="submit" value="post" class="btn btn-primary btn-dark">
-
+        {% else %}
+        <p class="text-dark">Posting frequency exceeds the limit.</p>
+        {% endif %}
         
         {% if verse.image %}
         <h2>Keyword Visualization</h2>

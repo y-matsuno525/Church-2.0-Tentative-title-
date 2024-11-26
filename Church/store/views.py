@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
 
-stripe.api_key = 'secret'
+stripe.api_key = 'sk_test_51QM2PUBqD5txSTx2CKj3jmDHr2mA8OwXjvc0FeyGOdjPiyTWIt8RdrE6iKznM21nQ7GxBNxVRWNoAtMtzyBIB2Qt00bVFRLu3B'
 
 
 def checkout(request):
@@ -105,7 +105,7 @@ def create_checkout_session(request):
         # ここもう少しハンドリングするべき
 
 
-endpoint_secret = 'secret'
+endpoint_secret = 'whsec_7dfaa602ece8bbc9c1c974c457ddce66b205bcdfbb691b5422cefc4ec65f79c2'
 
 
 @csrf_exempt

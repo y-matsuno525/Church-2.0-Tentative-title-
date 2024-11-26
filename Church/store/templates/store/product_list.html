@@ -1,37 +1,55 @@
 {% extends "base.html" %}
 
 {% block main %}
-<div class="container">
+<div class="container my-5">
     <div class="row row-cols-1 row-cols-md-2 g-4">
-        <body>
-            {% for product in products_list %}
+        {% for product in products_list %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <!-- 商品画像 -->
                 {% if product.image %}
-                    {% for image in product.image %}
-                        <img src="{{image}}" class="img-fluid">
-                    {% endfor %}
+                    <div class="text-center">
+                        {% for image in product.image %}
+                            <img src="{{ image }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                        {% endfor %}
+                    </div>
                 {% else %}
-                    <p>No image available!</p>
+                    <div class="card-body">
+                        <p class="text-center text-muted">No image available!</p>
+                    </div>
                 {% endif %}
-                <h2 class="text-dark">{{ product.name }}</h2><br>
-                {% if product.num != 1 %}
-                    {% for price in product.price_list %}
-                        <span class="text-dark">{{ price.nickname}} : {{price.price}} {{price.currency}}</span><br>
-                        <form action="/store/create-checkout-session" method="POST">
-                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                            <input type="hidden" name="price" value={{price.id}}>
-                            <button type="submit" id="checkout-button" class="btn btn-primary btn-dark">Checkout</button><br>
-                    {% endfor %}
-                {% else %}
-                    {% for price in product.price_list %}
-                        <span class="text-dark">{{price.price}} {{price.currency}}</span><br>
-                        <form action="/store/create-checkout-session" method="POST">
-                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                            <input type="hidden" name="price" value={{price.id}}>
-                            <button type="submit" id="checkout-button" class="btn btn-primary btn-dark">Checkout</button><br>
-                    {% endfor %}
-                {% endif %}
-            {% endfor %}
-        </body>
+
+                <!-- 商品情報 -->
+                <div class="card-body">
+                    <h5 class="card-title text-dark text-center">{{ product.name }}</h5>
+
+                    {% if product.num != 1 %}
+                        {% for price in product.price_list %}
+                            <p class="card-text text-center">
+                                <strong>{{ price.nickname }} {{ price.price }} {{ price.currency }} </strong>
+                            </p>
+                            <form action="/store/create-checkout-session" method="POST" class="text-center">
+                                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                <input type="hidden" name="price" value="{{ price.id }}">
+                                <button type="submit" class="btn btn-primary btn-sm btn-dark">Checkout</button>
+                            </form>
+                        {% endfor %}
+                    {% else %}
+                        {% for price in product.price_list %}
+                            <p class="card-text text-center">
+                                <strong>{{ price.price }} {{ price.currency }}</strong>
+                            </p>
+                            <form action="/store/create-checkout-session" method="POST" class="text-center">
+                                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                <input type="hidden" name="price" value="{{ price.id }}">
+                                <button type="submit" class="btn btn-primary btn-sm btn-dark">Checkout</button>
+                            </form>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

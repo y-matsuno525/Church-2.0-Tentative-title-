@@ -4,6 +4,7 @@ from .forms import DiscussionForm,PageForm,DiscussionForm_guest
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django_ratelimit.decorators import ratelimit
 
 bible_order = [
         "genesis", "exodus", "leviticus", "numbers", "deuteronomy", "joshua",
@@ -63,7 +64,6 @@ def book(request,num=1):
 
     return render(request,"forum/book.html",params)
 
-#@login_required(login_url="/accounts/login/")
 def forum(request):
 
     name = request.GET["name"]
@@ -77,43 +77,61 @@ def forum(request):
 
     post = Post.objects.filter(verse__chapter__book__name = name, verse__chapter__chapter_number=chapter_number, verse__verse_number=verse_number).order_by("-created_at")
 
+    can_post = 1
+
     if request.user.is_authenticated:
         form = DiscussionForm()
+            
     else:
         form = DiscussionForm_guest()
-
-
+            
     params = {
+
         "name":book.name,
         "chapter":chapter,
         "verse":verse,
         "form":form,
         "post":post,
+        "can_post" : can_post
 
     }
 
     if (request.method == 'POST'):
-        if request.user.is_authenticated:
 
-            user = request.user
-            post_text = request.POST["text"]
-            name=request.GET["name"]
-            chapter=request.GET["chapter"]
-            verse_number=request.GET["verse"]
-            post_verse = Verse.objects.get(verse_number=verse_number, chapter__chapter_number=chapter, chapter__book__name=name)
+        was_limited = False#ratelimit(key='ip', rate='5/m', method='POST', block=False)(lambda x: True)(request)
 
-            post = Post(owner=user,text=post_text,verse=post_verse)     
-            post.save() 
+        if not was_limited:
+
+            params["can_post"] = 1
+
+            if request.user.is_authenticated:
+
+                user = request.user
+                post_text = request.POST["text"]
+                name=request.GET["name"]
+                chapter=request.GET["chapter"]
+                verse_number=request.GET["verse"]
+                post_verse = Verse.objects.get(verse_number=verse_number, chapter__chapter_number=chapter, chapter__book__name=name)
+
+                post = Post(owner=user,text=post_text,verse=post_verse)     
+                post.save() 
+                params["post"] = Post.objects.filter(verse__chapter__book__name = name, verse__chapter__chapter_number=chapter_number, verse__verse_number=verse_number).order_by("-created_at")
+
+
+
+            else:
+                guest_name = request.POST["guest_name"]
+                post_text = request.POST["text"]
+                name=request.GET["name"]
+                chapter=request.GET["chapter"]
+                verse_number=request.GET["verse"]
+                post_verse = Verse.objects.get(verse_number=verse_number, chapter__chapter_number=chapter, chapter__book__name=name)
+
+                post = Post(guest_name=guest_name,text=post_text,verse=post_verse)     
+                post.save() 
+                params["post"] = Post.objects.filter(verse__chapter__book__name = name, verse__chapter__chapter_number=chapter_number, verse__verse_number=verse_number).order_by("-created_at")
 
         else:
-            guest_name = request.POST["guest_name"]
-            post_text = request.POST["text"]
-            name=request.GET["name"]
-            chapter=request.GET["chapter"]
-            verse_number=request.GET["verse"]
-            post_verse = Verse.objects.get(verse_number=verse_number, chapter__chapter_number=chapter, chapter__book__name=name)
-
-            post = Post(guest_name=guest_name,text=post_text,verse=post_verse)     
-            post.save() 
+            params["can_post"] = 0
 
     return render(request,"forum/forum.html",params)
