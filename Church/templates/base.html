@@ -54,11 +54,16 @@
                 const currentPath = window.location.pathname;
                 if (currentPath === '/menu' || currentPath === '/menu/') {
                     return
+                } else if (currentPath === '/mypage/') {
+                    const upperLevelUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/')) ;
+                    window.location.href = upperLevelUrl+ "/menu/";
+                    return;
                 } 
+
     
                 const upperLevelUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/'));
 
-                if (upperLevelUrl.endsWith('accounts') || upperLevelUrl.endsWith('store') ){
+                if (upperLevelUrl.endsWith('accounts') || upperLevelUrl.endsWith('store') || upperLevelUrl.endsWith('mypage')){
 
                     let next_upperLevelUrl = upperLevelUrl.substring(0, upperLevelUrl.lastIndexOf('/'));
 
@@ -94,6 +99,7 @@
                 {% csrf_token %}
                 <li class="nav-item"><a class="nav-link" href="javascript:logout.submit()">Logout</a></li>
             </form>
+            <li class="nav-item"><a class="nav-link" href="{% url 'mypage:mypage' %}">my page</a></li>
             
             {% else %}
             <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>

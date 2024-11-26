@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load markdown_extras %}
+
+{% block main %}
+    <body>
+        <p>{{ user.username }}</p>
+
+        <!-- Postsの表示 -->
+        {% for post in posts %}
+        <p>
+            {{ post.verse.chapter.book.name }} {{ post.verse.chapter.chapter_number }} : {{ post.verse.verse_number }}<br>
+            {{ post.text }}<br>
+        </p>
+        {% endfor %}
+
+        <!-- Preprintsの表示 -->
+        {% for preprint in preprints %}
+        <div class="preprint">
+            <h3>{{ preprint.title }}</h3>
+            <div>{{ preprint.content|markdown|safe }}</div>
+
+            <!-- 削除ボタン -->
+            <form action="{% url 'mypage:preprint_delete' preprint.id %}" method="POST" class="mt-3">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm btn-dark">delete</button>
+            </form>
+        </div>
+        <hr>
+        {% endfor %}
+    </body>
+{% endblock %}
